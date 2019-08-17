@@ -18,18 +18,20 @@ void CProcessorDirector::AddProcessor(std::string name, LogProcessor * pProcesso
 	processors[name]->addListener(pProcessor);
 }
 
-void CProcessorDirector::SetReader(std::string name, StatusReader * pReader)
+void CProcessorDirector::SetReader(std::string name, StatusReader * pReader, int szData)
 {
+	if (szData <= 0)
+		throw runtime_error("zero data size");
 	if (processors.find(name) == processors.end())
 	{
 		CProcess* pCP = new CProcess();
 		pReader->Initialize();
-		pCP->setReader(pReader);
+		pCP->setReader(pReader, szData);
 		processors.insert(make_pair(name, pCP));
 	}
 	else
 	{
-		processors[name]->setReader(pReader);
+		processors[name]->setReader(pReader, szData);
 	}
 }
 

@@ -21,8 +21,8 @@ void LogSender::Initialize(const char * ip)
 	connect(s, (sockaddr*)&addr, sizeof(addr));*/
 }
 
-BOOL LogSender::Process(const CPStatus & out)
+BOOL LogSender::Process(LPCVOID in)
 {
-	printf("Count #%d  %f  %d\n", cnt++, out.dCpuUse, out.dwMemLoad);
+	printf("Count #%d  %f  %d\n", cnt++, ((CPStatus*)in)->dCpuUse, ((CPStatus*)in)->dwMemLoad);
 	return TRUE;
 }

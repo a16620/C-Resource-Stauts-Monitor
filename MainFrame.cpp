@@ -13,7 +13,7 @@ MainFrame::~MainFrame()
 
 bool MainFrame::Initialize()
 {
-	m_director.SetReader("RS_1", new ResourceStatusReader());
+	m_director.SetReader("RS_1", new ResourceStatusReader(), sizeof(CPStatus));
 	LogSender* sender = new LogSender();
 	sender->Initialize("localhost");
 	m_director.AddProcessor("RS_1", sender);

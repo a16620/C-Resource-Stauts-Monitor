@@ -13,12 +13,13 @@ private:
 	private:
 		std::list<LogProcessor*> listeners;
 		StatusReader* reader = nullptr;
+		int datasize = 0;
 	public:
-		void setReader(StatusReader* pReader)
+		void setReader(StatusReader* pReader, int szData)
 		{
 			if (reader)
 				reader->Release();
-
+			datasize = szData;
 			reader = pReader;
 			reader->Initialize();
 		}
@@ -29,16 +30,19 @@ private:
 
 		bool Process()
 		{
-			CPStatus stat;
-			bool result = reader->Read(&stat);
+			void* stat = malloc(datasize);
+			bool result = reader->Read(stat);
 			if (!result)
+			{
+				free(stat);
 				return result;
+			}
 
 			for (std::list<LogProcessor*>::iterator iter = listeners.begin(); iter != listeners.end(); ++iter)
 			{
 				(*iter)->Process(stat);
 			}
-
+			free(stat);
 			return true;
 		}
 
@@ -60,7 +64,7 @@ public:
 	~CProcessorDirector();
 
 	void AddProcessor(std::string name, LogProcessor* pProcessor);
-	void SetReader(std::string name, StatusReader* pReader);
+	void SetReader(std::string name, StatusReader* pReader, int szData);
 	bool Activate(std::string name);
 	void Release();
 };

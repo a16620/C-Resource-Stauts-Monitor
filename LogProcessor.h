@@ -7,7 +7,7 @@ public:
 	LogProcessor() {};
 	virtual ~LogProcessor() {};
 
-	virtual BOOL Process(const CPStatus&)=0;
+	virtual BOOL Process(LPCVOID)=0;
 };
 
 class LogSender : public LogProcessor
@@ -20,5 +20,5 @@ public:
 	LogSender();
 	~LogSender();
 	void Initialize(const char* ip);
-	BOOL Process(const CPStatus& out);
+	BOOL Process(LPCVOID in);
 };

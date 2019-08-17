@@ -14,7 +14,7 @@ public:
 	virtual ~StatusReader() {};
 	virtual bool Initialize() = 0;
 	virtual void Release() = 0;
-	virtual bool Read(struct CPStatus* out)=0;
+	virtual bool Read(LPVOID out)=0;
 };
 
 class ResourceStatusReader : public StatusReader
@@ -27,5 +27,5 @@ public:
 	~ResourceStatusReader();
 	bool Initialize();
 	void Release();
-	bool Read(struct CPStatus* out);
+	bool Read(LPVOID out);
 };

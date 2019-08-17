@@ -23,12 +23,12 @@ void ResourceStatusReader::Release()
 	m_pdh.Release();
 }
 
-bool ResourceStatusReader::Read(CPStatus* out)
+bool ResourceStatusReader::Read(LPVOID out)
 {
-	out->dCpuUse = m_pdh.GetCpuUse();
+	((CPStatus*)out)->dCpuUse = m_pdh.GetCpuUse();
 	MEMORYSTATUSEX memst;
 	memst.dwLength = sizeof(MEMORYSTATUSEX);
 	BOOL res = GlobalMemoryStatusEx(&memst);
-	out->dwMemLoad = memst.dwMemoryLoad;
-	return (out->dCpuUse != -1) && res;
+	((CPStatus*)out)->dwMemLoad = memst.dwMemoryLoad;
+	return (((CPStatus*)out)->dCpuUse != -1) && res;
 }
